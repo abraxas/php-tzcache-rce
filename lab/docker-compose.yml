@@ -1,0 +1,38 @@
+name: cve-2026-129496
+
+services:
+  vuln:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PHP_IMAGE: php:8.4.27-apache
+    image: cve-2026-129496-vuln:8.4.27-apache
+    pull_policy: missing
+    init: true
+    restart: "no"
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - "127.0.0.1:18224:80"
+
+  patched:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PHP_IMAGE: php:8.4.28-apache
+    image: cve-2026-129496-patched:8.4.28-apache
+    pull_policy: missing
+    init: true
+    restart: "no"
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - "127.0.0.1:18225:80"
